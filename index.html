@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Juego Interactivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(Bosque\ Oscuro.jpg);
+            background-size: cover;
+            background-color: #101010;
+            color: #fdfd05;
+            padding: 50px;
+            text-align: center;
+        }
+        .story {
+            margin-bottom: 60px;
+        }
+        .choices {
+            margin-bottom: 60px;
+        }
+        button {
+            padding: 70px 75px;
+            margin: 70px;
+            cursor: pointer;
+            display: inline-block;
+            background-image: url();
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <div id="story" class="story"></div>
+        <div id="choices" class="choices"></div>
+    </div>
+
+    <script>
+        const storyElement = document.getElementById('story');
+        const choicesElement = document.getElementById('choices');
+
+        const storyData = {
+            start: {
+                text: 'Te Despiertas en un bosque oscuro. Hay dos caminos delante de ti.',
+                choices: [
+                    { text: "Tomar el camino de la izquierda", next: "leftPath" },
+                    { text: "Tomar el camino de la derecha", next: "rightPath" }
+                ]
+            },
+            leftPath: {
+                text: "Encuentras una casa abandonada. ¿Qué haces?",
+                choices: [
+                    { text: "Entrar en la casa", next: "enterHouse" },
+                    { text: "Seguir caminando", next: "keepWalking" }
+                ]
+            },
+            rightPath: {
+                text: "Te encuentras con un río. ¿Qué haces?",
+                choices: [
+                    { text: "Cruzar el río", next: "crossRiver" },
+                    { text: "Seguir la orilla del río", next: "followRiver" }
+                ]
+            },
+            enterHouse: {
+                text: "Dentro de la casa, encuentras un tesoro. ¡Has ganado!",
+                choices: [
+                    { text: "Volver a empezar", next: "start" }
+                ]
+            },
+            keepWalking: {
+                text: "Te pierdes en el bosque y nunca encuentras una salida. Fin del juego.",
+                choices: [
+                    { text: "Volver a empezar", next: "start" }
+                ]
+            },
+            crossRiver: {
+                text: "El río es demasiado profundo y te ahogas. Fin del juego.",
+                choices: [
+                    { text: "Volver a empezar", next: "start" }
+                ]
+            },
+            followRiver: {
+                text: "Sigues la orilla del río y encuentras una aldea. ¡Has ganado!",
+                choices: [
+                    { text: "Volver a empezar", next: "start" }
+                ]
+            }
+        };
+
+        function renderStory(scene) {
+            storyElement.textContent = storyData[scene].text;
+            choicesElement.innerHTML = '';
+            storyData[scene].choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.textContent = choice.text;
+                button.onclick = () => renderStory(choice.next);
+                choicesElement.appendChild(button);
+            });
+        }
+
+        renderStory('start');
+    </script>
+
+</body>
+</html>
